@@ -1,0 +1,113 @@
+{% schema %}
+{
+  "name": "Image Layout",
+  "tag": "section",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "image_1",
+      "name": "Left Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "alt",
+          "label": "Alt text",
+          "default": "Left image"
+        }
+      ]
+    },
+    {
+      "type": "image_2",
+      "name": "Top Right Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "alt",
+          "label": "Alt text",
+          "default": "Top right image"
+        }
+      ]
+    },
+    {
+      "type": "image_3",
+      "name": "Bottom Right Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "alt",
+          "label": "Alt text",
+          "default": "Bottom right image"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 3,
+  "presets": [
+    {
+      "name": "Image Layout"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="max-w-6xl mx-auto px-4 py-8">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:h-[500px]">
+
+    <!-- Left Image (Large) -->
+    {% assign left = section.blocks | where: "type", "image_1" | first %}
+    {% if left %}
+      <a href="{{ left.settings.link }}" class="col-span-2 md:h-full block">
+        <img src="{{ left.settings.image | image_url: width: 800 }}" alt="{{ block.settings.alt | escape }}" class="w-full h-full object-cover rounded-xl">
+      </a>
+    {% endif %}
+
+    <!-- Right Images (Two stacked) -->
+    <div class="flex flex-col gap-4 md:h-full">
+      {% assign right_top = section.blocks | where: "type", "image_2" | first %}
+      {% assign right_bottom = section.blocks | where: "type", "image_3" | first %}
+
+      {% if right_top %}
+        <a href="{{ right_top.settings.link }}" class="h-auto md:h-1/2 block">
+          <img src="{{ right_top.settings.image | image_url: width: 400 }}" alt="{{ block.settings.alt | escape }}" class="w-full h-full object-cover rounded-xl">
+        </a>
+      {% endif %}
+
+      {% if right_bottom %}
+        <a href="{{ right_bottom.settings.link }}" class="h-auto md:h-1/2 block">
+          <img src="{{ right_bottom.settings.image | image_url: width: 400 }}" alt="{{ block.settings.alt | escape }}" class="w-full h-full object-cover rounded-xl">
+        </a>
+      {% endif %}
+    </div>
+
+  </div>
+</div>
